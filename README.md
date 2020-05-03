@@ -2,7 +2,7 @@
 
 This is a simple SPA that provides a search tool to look for repositories by name.
 <br />
-Demo at [https://mossen-github-repo-search.netlify.com/](https://mossen-github-repo-search.netlify.com/)
+Demo at [https://github-repositories-search.netlify.app/](https://github-repositories-search.netlify.app/)
 
 ## Solution architecture
 
