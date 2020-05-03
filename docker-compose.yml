@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  www: &web_node
+    build: ./docker
+    command: sh /var/www/html/docker/entrypoint.sh
+    environment: 
+      - INIT=${INIT:-0}
+      - TEST=${TEST:-0}
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/var/www/html/
