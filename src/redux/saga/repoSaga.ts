@@ -1,5 +1,5 @@
 import { SagaIterator } from "@redux-saga/core";
-import { call, put, takeLatest, delay } from "redux-saga/effects";
+import { call, put, debounce } from "redux-saga/effects";
 import api from "../../services/api";
 import { repositoriesEndpoint } from "../../services/endpoints";
 
@@ -11,7 +11,6 @@ import {
 } from "../slices/repoSlice";
 
 function* fetchRepositories(action): SagaIterator {
-  yield delay(300);
   try {
     // Empty the list if keyword is null
     if (!action.payload.keyword) {
@@ -33,5 +32,5 @@ function* fetchRepositories(action): SagaIterator {
 }
 
 export function* watchFetchRepositories(): SagaIterator {
-  yield takeLatest(getRepositoriesRequest.toString(), fetchRepositories);
+  yield debounce(300, getRepositoriesRequest.toString(), fetchRepositories);
 }
