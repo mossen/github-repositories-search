@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "../../components/Container";
 
-const About = () => {
+const About: React.FC = () => {
   return (
     <Container>
       <br/>
