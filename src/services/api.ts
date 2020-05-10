@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios, { AxiosPromise } from "axios";
 
 const api = (
   url,
   method,
   data = null,
   headers = { headers: { "Content-Type": "application/json" } }
-) => {
+): AxiosPromise => {
   // axios expects params for get parameters
   let dataKey = "data";
   if (method === "GET") {
