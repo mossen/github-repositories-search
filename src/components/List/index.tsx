@@ -11,7 +11,7 @@ type Props = {
   loadMoreHandler: Function;
 };
 
-const List: React.FC<Props> = (props) => {
+const List: React.FC<Props> = props => {
   const { items, isLoading, loadMoreHandler } = props;
 
   const handleScroll = (event): void => {
@@ -39,14 +39,16 @@ const List: React.FC<Props> = (props) => {
   );
 
   return (
-    <Wrapper
-      items={items}
-      onScroll={handleScroll}
-      className="mt-2 max-w-full bg-white rounded overflow-scroll shadow-lg"
-    >
-      {itemElements}
-      <Loading show={isLoading} />
-    </Wrapper>
+    items && (
+      <Wrapper
+        items={items}
+        onScroll={handleScroll}
+        className="mt-2 max-w-full bg-white rounded overflow-scroll shadow-lg"
+      >
+        {itemElements}
+        <Loading show={isLoading} />
+      </Wrapper>
+    )
   );
 };
 
