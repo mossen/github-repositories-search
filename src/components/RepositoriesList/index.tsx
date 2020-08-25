@@ -32,57 +32,57 @@ const RepositoriesList: React.FC = () => {
     dispatch(getRepositoriesRequest({ keyword, perPage }));
   }, [keyword, perPage, dispatch]);
 
-  // Having this for observation - to be removed for production
-  const profilerCallback = (
-    id, // the "id" prop of the Profiler tree that has just committed
-    phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
-    actualDuration, // time spent rendering the committed update
-    baseDuration, // estimated time to render the entire subtree without memoization
-    startTime, // when React began rendering this update
-    commitTime, // when React committed this update
-    interactions
-  ): void => {
-    console.log(
-      id,
-      phase,
-      actualDuration,
-      baseDuration,
-      startTime,
-      commitTime,
-      interactions,
-      [keyword, loading]
-    );
-  }
-
   /* 
     REducing one time re-rendering which might not be very effective 
     here but in expensive component is.
   */
-  const memoizedElements = useMemo(() => {
-    return (
-      <Profiler id="repositories-list" onRender={profilerCallback}>
-        <div className="flex justify-center">
-          <div className="mb-4 mt-4 w-full sm:max-w-md px-5">
-            <SearchBox
-              label="Search Repositories"
-              onChangeHandler={(keyword): void => (setKeyword(keyword))}
-            />
-            <List
-              isLoading={loading}
-              items={repositories}
-              loadMoreHandler={(): void => setPerPage(perPage + 20)}
-              canLoadMore={total_count > perPage}
-            />
+  const memoizedElements = useMemo(
+    () => {
+      // Having this for observation - to be removed for production
+      const profilerCallback = (
+        id, // the "id" prop of the Profiler tree that has just committed
+        phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
+        actualDuration, // time spent rendering the committed update
+        baseDuration, // estimated time to render the entire subtree without memoization
+        startTime, // when React began rendering this update
+        commitTime, // when React committed this update
+        interactions
+      ): void => {
+        console.log(
+          id,
+          phase,
+          actualDuration,
+          baseDuration,
+          startTime,
+          commitTime,
+          interactions,
+          [keyword, loading]
+        );
+      };
+
+      return (
+        <Profiler id="repositories-list" onRender={profilerCallback}>
+          <div className="flex justify-center">
+            <div className="mb-4 mt-4 w-full sm:max-w-md px-5">
+              <SearchBox
+                label="Search Repositories"
+                onChangeHandler={(keyword): void => setKeyword(keyword)}
+              />
+              <List
+                isLoading={loading}
+                items={repositories}
+                loadMoreHandler={(): void => setPerPage(perPage + 20)}
+                canLoadMore={total_count > perPage}
+              />
+            </div>
           </div>
-        </div>
-      </Profiler>
-
-    );
-  }, [loading, repositories, total_count, perPage]);
-
-  return (
-    memoizedElements
+        </Profiler>
+      );
+    },
+    [keyword, loading, repositories, total_count, perPage]
   );
+
+  return memoizedElements;
 };
 
 export default RepositoriesList;
